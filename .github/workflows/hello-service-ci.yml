@@ -1,0 +1,42 @@
+name: Hello Service CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'services/hello-service/**'
+      - '.github/workflows/hello-service-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'services/hello-service/**'
+      - '.github/workflows/hello-service-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Test Python syntax
+        run: python -m py_compile services/hello-service/app.py
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./services/hello-service
+          push: false
+          tags: hello-service:ci
