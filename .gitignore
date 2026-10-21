@@ -1,0 +1,30 @@
+# Python generated files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+
+# Terraform generated files and state
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+!*.tfvars.example
+
+# Terraform local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
