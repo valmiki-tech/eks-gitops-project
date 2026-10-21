@@ -59,7 +59,7 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
@@ -84,3 +84,19 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/hello-service:latest
             ghcr.io/${{ github.repository_owner }}/hello-service:${{ github.sha }}
+
+      - name: Update Kubernetes manifest
+        run: |
+          sed -i "s|image: .*|image: ghcr.io/${{ github.repository_owner }}/hello-service:${{ github.sha }}|" kubernetes/hello-service-deployment.yaml
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add kubernetes/hello-service-deployment.yaml
+
+          if git diff --cached --quiet; then
+            echo "Kubernetes manifest already uses this image."
+          else
+            git commit -m "Update hello-service image to ${{ github.sha }}"
+            git push
+          fi
