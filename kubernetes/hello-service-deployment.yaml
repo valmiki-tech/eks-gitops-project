@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: hello-service
-          image: ghcr.io/valmiki-tech/hello-service:0ab7f1d1738430133af700f8d9933847dbe18ff4
+          image: ghcr.io/valmiki-tech/hello-service:dc5a73ab876bfd0e3ee6d1a5fe4e84ce2db386c2
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
