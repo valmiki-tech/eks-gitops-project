@@ -13,7 +13,7 @@ class HelloServiceHandler(BaseHTTPRequestHandler):
 
         elif self.path == "/":
             response = {
-                "message": "Hello from the DevOps project!",
+                "message": "Hello from the GitOps deployment! Version 2",
                 "service": "hello-service",
                 "status": "running"
             }
