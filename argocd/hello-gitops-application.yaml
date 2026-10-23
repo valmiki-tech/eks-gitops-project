@@ -1,0 +1,26 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-gitops
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/valmiki-tech/eks-gitops-project.git
+    targetRevision: main
+    path: helm/hello-service
+    helm:
+      releaseName: hello-gitops
+      parameters:
+        - name: podLabels.gitops-release
+          value: hello-gitops
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
