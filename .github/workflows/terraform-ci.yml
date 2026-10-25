@@ -1,0 +1,38 @@
+name: Terraform CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/terraform-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/terraform-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.16.6'
+
+      - name: Check formatting
+        run: terraform -chdir=terraform fmt -check -recursive
+
+      - name: Initialize without configuring a backend
+        run: terraform -chdir=terraform init -backend=false
+
+      - name: Validate configuration
+        run: terraform -chdir=terraform validate
