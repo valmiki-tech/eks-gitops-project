@@ -17,3 +17,9 @@ resources:
     cpu: 200m
     memory: 128Mi
 podLabels: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
