@@ -31,3 +31,7 @@ Thumbs.db
 
 # Local Kind executable
 /kind
+
+# Terraform saved plans (may contain sensitive infrastructure details)
+*.tfplan
+*.tfplan.*
